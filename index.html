@@ -1,132 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Office Mood Playground</title>
-
+<title>Office Escape</title>
 <style>
-body {
+body{
   margin:0;
   height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,#f472b6,#60a5fa,#34d399);
-  animation: bgMove 10s infinite alternate;
+  background:#020617;
+  color:white;
+  font-family:system-ui;
 }
-
-@keyframes bgMove {
-  0% { filter:hue-rotate(0deg); }
-  100% { filter:hue-rotate(40deg); }
-}
-
-.container {
-  background: rgba(255,255,255,0.9);
-  padding:30px;
+.box{
+  width:340px;
+  padding:25px;
   border-radius:20px;
-  width:320px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(20px);
   text-align:center;
-  box-shadow:0 20px 40px rgba(0,0,0,0.2);
 }
-
-h2 {
-  margin-bottom:15px;
-  color:#111827;
-}
-
-.moods button {
-  font-size:26px;
-  margin:8px;
-  border:none;
-  border-radius:12px;
-  padding:10px 14px;
-  cursor:pointer;
-  transition:transform 0.2s;
-}
-
-.moods button:hover {
-  transform:scale(1.15);
-}
-
-#result {
-  margin-top:20px;
-  font-size:18px;
-  color:#1f2937;
-  min-height:60px;
-}
-
-#play {
-  display:none;
+button{
   margin-top:15px;
-  padding:10px 25px;
+  padding:10px 20px;
   border:none;
   border-radius:999px;
-  background:#6366f1;
-  color:white;
-  font-size:16px;
+  background:white;
+  color:#020617;
+}
+input{
+  margin-top:10px;
+  padding:8px;
+  width:80%;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h2>How’s office treating you?</h2>
-
-  <div class="moods">
-    <button onclick="selectMood('tired')">😴</button>
-    <button onclick="selectMood('bored')">😐</button>
-    <button onclick="selectMood('annoyed')">😤</button>
-    <button onclick="selectMood('okay')">🙂</button>
-    <button onclick="selectMood('calm')">🤍</button>
-  </div>
-
-  <div id="result"></div>
-  <button id="play" onclick="play()">Play again</button>
+<div class="box" id="game">
+  <h2>Office Escape Room</h2>
+  <p id="text">You have 2 minutes to escape office.</p>
+  <button onclick="next()">Start</button>
 </div>
 
 <script>
-const responses = {
-  tired: [
-    "Close your eyes for 5 seconds. No guilt.",
-    "Roll your shoulders. You deserve ease.",
-    "Tiny reminder: you’re doing well 🤍"
-  ],
-  bored: [
-    "Mentally resign for 3 seconds.",
-    "Think of your next holiday 🏖️",
-    "Smile once. Just once 🙂"
-  ],
-  annoyed: [
-    "Deep breath in… and out.",
-    "You won this minute. Small victories.",
-    "Some meetings shouldn’t exist."
-  ],
-  okay: [
-    "Steady days matter too.",
-    "Sip water like it’s sacred 💧",
-    "You’re exactly where you need to be."
-  ],
-  calm: [
-    "Protect this calm.",
-    "Slow moments are powerful.",
-    "Stay here a little longer 🤍"
-  ]
-};
+let step=0;
 
-let currentMood = "";
-
-function selectMood(mood) {
-  currentMood = mood;
-  play();
+function next(){
+  const g=document.getElementById("game");
+  if(step===0){
+    g.innerHTML=`<p>Riddle 1:</p>
+    <p>I’m always running but never move. What am I?</p>
+    <input id="a">
+    <button onclick="check1()">Submit</button>`;
+  }
 }
 
-function play() {
-  const arr = responses[currentMood];
-  const random = Math.floor(Math.random() * arr.length);
-  document.getElementById("result").innerText = arr[random];
-  document.getElementById("play").style.display = "inline-block";
+function check1(){
+  if(document.getElementById("a").value.toLowerCase().includes("time")){
+    document.getElementById("game").innerHTML=
+    `<p>Correct.</p>
+     <p>Riddle 2:</p>
+     <p>Which is heavier: a full inbox or an empty mind?</p>
+     <button onclick="check2()">Inbox</button>
+     <button onclick="check2()">Mind</button>`;
+  }
+}
+
+function check2(){
+  document.getElementById("game").innerHTML=
+  `<p>Interesting choice.</p>
+   <p>Final question:</p>
+   <p>Do you really need to escape… or just survive today?</p>
+   <button onclick="end()">Finish</button>`;
+}
+
+function end(){
+  document.getElementById("game").innerHTML=
+  `<h3>You escaped… mentally 😌</h3>
+   <p>Back to office now. But lighter.</p>`;
 }
 </script>
 
