@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Office Mood Playground</title>
+
+<style>
+body {
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#f472b6,#60a5fa,#34d399);
+  animation: bgMove 10s infinite alternate;
+}
+
+@keyframes bgMove {
+  0% { filter:hue-rotate(0deg); }
+  100% { filter:hue-rotate(40deg); }
+}
+
+.container {
+  background: rgba(255,255,255,0.9);
+  padding:30px;
+  border-radius:20px;
+  width:320px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+}
+
+h2 {
+  margin-bottom:15px;
+  color:#111827;
+}
+
+.moods button {
+  font-size:26px;
+  margin:8px;
+  border:none;
+  border-radius:12px;
+  padding:10px 14px;
+  cursor:pointer;
+  transition:transform 0.2s;
+}
+
+.moods button:hover {
+  transform:scale(1.15);
+}
+
+#result {
+  margin-top:20px;
+  font-size:18px;
+  color:#1f2937;
+  min-height:60px;
+}
+
+#play {
+  display:none;
+  margin-top:15px;
+  padding:10px 25px;
+  border:none;
+  border-radius:999px;
+  background:#6366f1;
+  color:white;
+  font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>How’s office treating you?</h2>
+
+  <div class="moods">
+    <button onclick="selectMood('tired')">😴</button>
+    <button onclick="selectMood('bored')">😐</button>
+    <button onclick="selectMood('annoyed')">😤</button>
+    <button onclick="selectMood('okay')">🙂</button>
+    <button onclick="selectMood('calm')">🤍</button>
+  </div>
+
+  <div id="result"></div>
+  <button id="play" onclick="play()">Play again</button>
+</div>
+
+<script>
+const responses = {
+  tired: [
+    "Close your eyes for 5 seconds. No guilt.",
+    "Roll your shoulders. You deserve ease.",
+    "Tiny reminder: you’re doing well 🤍"
+  ],
+  bored: [
+    "Mentally resign for 3 seconds.",
+    "Think of your next holiday 🏖️",
+    "Smile once. Just once 🙂"
+  ],
+  annoyed: [
+    "Deep breath in… and out.",
+    "You won this minute. Small victories.",
+    "Some meetings shouldn’t exist."
+  ],
+  okay: [
+    "Steady days matter too.",
+    "Sip water like it’s sacred 💧",
+    "You’re exactly where you need to be."
+  ],
+  calm: [
+    "Protect this calm.",
+    "Slow moments are powerful.",
+    "Stay here a little longer 🤍"
+  ]
+};
+
+let currentMood = "";
+
+function selectMood(mood) {
+  currentMood = mood;
+  play();
+}
+
+function play() {
+  const arr = responses[currentMood];
+  const random = Math.floor(Math.random() * arr.length);
+  document.getElementById("result").innerText = arr[random];
+  document.getElementById("play").style.display = "inline-block";
+}
+</script>
+
+</body>
+</html>
